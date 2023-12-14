@@ -50,7 +50,3 @@ If you prefer manual setup, follow these steps:
 -   Ensure that your PHP version is at least 8.0 and up
 
 -   Customize the server setup according to your environment.
-
--   Explore and leverage the features provided in this template to expedite your web development process.
-
-Feel free to reach out for any assistance or further guidance. Happy coding!
