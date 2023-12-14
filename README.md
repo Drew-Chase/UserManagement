@@ -9,7 +9,7 @@ A user management system for creating, removing and managing permissions across 
 Clone the repository using the following command:
 
 ```bash
-git clone --recurse https://github.com/Mardens-Inc/Web-Template.git
+git clone --recurse https://github.com/Mardens-Inc/UserManagement.git
 ```
 
 ### Composer
