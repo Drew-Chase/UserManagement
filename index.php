@@ -40,14 +40,10 @@
     <script src="/assets/js/popups.min.js"></script>
     <script>
         const auth = new Authentication();
-        if (!auth.isLoggedIn()) {
-            $("main").load("/pages/login.php");
-        }
-
-        $(auth).on("logged-in", () => {
-            $("main").load("/pages/dashboard.php");
-        });
+        $("main").load("/pages/login.php");
     </script>
+
+    <script src="/assets/js/input.js"></script>
 </body>
 
 </html>
