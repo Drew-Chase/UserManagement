@@ -5,14 +5,16 @@
         margin-top: 2rem;
         height: calc(100vh - 4rem);
         width: calc(100% - 164px);
-        background-color: #181818;
-        border-radius: 5px;
         min-width: 500px;
         min-height: 500px;
         overflow: scroll;
+        opacity: 0;
+        animation-name: pageLoad;
+        animation-fill-mode: forwards;
+        animation-duration: .7s;
+        animation-delay: .3s;
     }
 
-    
     .page-title {
         margin: 0;
         margin-bottom: 1rem;
@@ -22,6 +24,24 @@
         font-weight: 900;
     }
 
+    @keyframes pageLoad {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+    @keyframes contentLoad {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
 </style>
 
 <div class="row" style="flex-wrap:nowrap;">
@@ -37,8 +57,6 @@
         document.title = "Dashboard - User Management";
         loadPage(window.location.pathname.replace("/", ""));
         $(document).on("page-change", (_, page) => loadPage(page))
-
-
     })();
 
     function loadPage(page) {
@@ -48,5 +66,6 @@
 
         page = page == "" ? "dashboard" : page;
         $(".page-content").load(`/pages/dashboard/${page}.php`);
+        $(document).trigger('page-loaded', page);
     }
 </script>
