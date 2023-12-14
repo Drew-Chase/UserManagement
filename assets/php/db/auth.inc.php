@@ -54,8 +54,9 @@ class Authentication
             return ["success" => false, "error" => "You do not have permission to add users"];
         }
 
-        // Create a comma separated list of permissions
+        // Separate the permissions with a semicolon
         $permissions = implode(";", $permissions);
+
         // Hash the password
         $password = crypt($password, $_ENV["HASH_SALT"]);
 
@@ -67,10 +68,7 @@ class Authentication
         if (!$result) {
             return ["success" => false, "error" => "Failed to send query to database 'users'"];
         }
-        // Check if the user was added
-        if ($result->num_rows === 0) {
-            return ["success" => false, "error" => "Failed to add user"];
-        }
+
         // Get the ID of the user
         $id = $this->connection->insert_id;
         // Encode the ID
@@ -262,6 +260,14 @@ class Authentication
         return ["success" => true, "user" => $user];
     }
 
+    public static function getPermissionMap(){
+        $permissions = array();
+        foreach(UserPermission::cases() as $permission){
+            $permissions[$permission->name] = $permission->value;
+        }
+        return $permissions;
+    }
+
     /**
      * Login a user using cookies
      * @return array An array containing the user and whether the operation was successful
@@ -388,8 +394,8 @@ class Authentication
 
     private function createAdminAccount()
     {
-        // Get all users from the database
-        $sql = "SELECT * FROM `users`";
+        // Check if an admin account exists
+        $sql = "SELECT * FROM `users` WHERE permissions = '0'";
         $result = $this->connection->query($sql);
         if (!$result) {
             return ["success" => false, "error" => "Failed to send query to database 'users'"];
