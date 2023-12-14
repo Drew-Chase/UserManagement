@@ -8,6 +8,10 @@
         margin-left: 1rem;
         min-height: calc(100vh - 4rem);
         transition: scale 200ms;
+        animation-name: loadPage;
+        animation-fill-mode: forwards;
+        animation-duration: .7s;
+        z-index: 1;
     }
 
     nav .nav-item {
@@ -70,6 +74,20 @@
         height: calc(100vh - 10rem);
         min-height: 14rem;
     }
+
+    @keyframes loadPage {
+        0% {
+            opacity: 0;
+            transform: translateX(-100%);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateX(0%);
+        }
+        
+    }
+
 </style>
 
 
@@ -83,7 +101,7 @@
                     <rect x="8.77454" width="144.225" height="52" rx="4" fill="#262626" />
                     <path d="M2.36222 26.9077C1.58832 26.55 1.58832 25.45 2.36222 25.0923L11.7667 20.7452C12.4294 20.4389 13.1863 20.9229 13.1863 21.6529L13.1863 30.3471C13.1863 31.0771 12.4294 31.5611 11.7668 31.2548L2.36222 26.9077Z" fill="#262626" />
                 </svg>
-                <span class="title">Dashboard</span>
+                <span class="title">Home</span>
             </span>
         </div>
         <div class="nav-item" page="new-user">
@@ -118,7 +136,7 @@
         let page = element.attr('page');
         $(".nav-item.selected").removeClass('selected');
         element.addClass("selected");
-        $(document).trigger('page-change', page);
         window.history.pushState({}, page, `/${page}`);
+        $(document).trigger('page-change', page);
     })
 </script>
