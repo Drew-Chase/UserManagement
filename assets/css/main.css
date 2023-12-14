@@ -14,7 +14,7 @@ body {
 
 .row, .col, .center, .fill, .grid {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .row {
@@ -38,6 +38,7 @@ body {
     width: 100%;
     width: -webkit-fill-available;
     width: -moz-available;
+    /* height: inherit; */
 }
 
 .loading {
