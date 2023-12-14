@@ -12,6 +12,7 @@ button, .button {
     border: none;
     font-size: 1rem;
     transition: background 200ms;
+    font-family: Poppins;
 }
 
 button:hover, .button:hover {
@@ -23,7 +24,8 @@ button:hover, .button:hover {
 button.secondary, .button.secondary {
     background: #545F71;
 }
-button.secondary:hover, .button.secondary:hover{
+
+button.secondary:hover, .button.secondary:hover {
     background: #434c5c;
 }
 
@@ -43,6 +45,88 @@ input {
 
 input:focus {
     outline: none;
+}
+
+input[type="search"] {
+    padding-left: 4rem;
+}
+
+input[type="search"]::placeholder {
+    font-weight: 600;
+    opacity: 0.5;
+}
+
+
+toggle {
+    position: relative;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: row-reverse;
+    width: calc(100% - 2rem);
+    margin-block: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+toggle:hover{
+    background: hsla(0, 0%, 0%, 0.5);
+}
+
+toggle::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 25px;
+    right: 1rem;
+    border-radius: 100px;
+    background-color: hsla(0, 0%, 100%, 1);
+}
+
+toggle::after {
+    content: '';
+    position: absolute;
+    right: 3px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 100px;
+    background-color: var(--primary);
+    transform: translateX(calc(-100% - 3px - 1rem));
+    transition: transform;
+    transition-duration: 200ms;
+}
+
+toggle[value=true]::after {
+    transform: translateX(-1rem);
+}
+
+.search-input {
+    position: relative;
+}
+
+.search-input::before {
+    content: "\f002";
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-size: 1.5rem;
+    color: black;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 600;
+    opacity: 0.5;
 }
 
 .floating-input {
@@ -71,4 +155,23 @@ input:focus {
     color: white;
     opacity: 1;
     transform: translate(5px, -5.5rem);
+}
+
+select {
+    font-family: 'Poppins';
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding-block: 1rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #545F71;
+    background: white;
+    width: calc(100% - .5rem);
+}
+
+select option {
+    font-family: 'Poppins';
+    font-size: 1rem;
 }
