@@ -20,7 +20,7 @@ class Authentication
         // Create a Hashids object to encode and decode IDs
         $this->hashids = new Hashids($_ENV["HASH_SALT"], 24);
 
-        
+
         // Create the users table if it doesn't exist
         $sql = "CREATE TABLE IF NOT EXISTS `users` (
             `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -30,7 +30,7 @@ class Authentication
             PRIMARY KEY (`id`)
           ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
         $this->connection->query($sql);
-        
+
         // Create the admin account if it doesn't exist
         $this->createAdminAccount();
     }
@@ -375,9 +375,15 @@ class Authentication
         // Get the user's permissions
         $permissions = explode(";", $row["permissions"]);
 
+        // convert permissions to int
+        $permissions = array_map(function ($permission) {
+            return intval($permission);
+        }, $permissions);
+        
+
 
         // Check if the user has the permission or is an admin
-        return in_array(UserPermission::All, $permissions) || in_array($permission, $permissions);
+        return in_array(UserPermission::All->value, $permissions) || in_array($permission, $permissions);
     }
 
     private function createAdminAccount()
