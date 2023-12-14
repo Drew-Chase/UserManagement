@@ -68,6 +68,7 @@
 
     nav #nav-items {
         height: calc(100vh - 10rem);
+        min-height: 14rem;
     }
 </style>
 
@@ -97,7 +98,7 @@
         </div>
     </div>
     <div class="col">
-        <div class="nav-item" page="logout">
+        <div class="nav-item" page="logout" onclick="auth.logout();">
             <img class="icon" src="/assets/images/icons/logout.svg" alt="">
             <span class="label">
                 <svg class="label-background" xmlns="http://www.w3.org/2000/svg" width="153" height="52" viewBox="0 0 153 52" fill="none">
