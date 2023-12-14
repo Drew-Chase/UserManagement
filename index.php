@@ -1,3 +1,9 @@
+<!-- 
+    @@Company: Marden's Surplus & Salvage
+    @@Project: User Management
+    @@Author: Drew Chase
+ -->
+
 <!DOCTYPE html>
 <html lang="en">
 
