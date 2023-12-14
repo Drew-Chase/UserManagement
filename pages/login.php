@@ -134,6 +134,8 @@
 
     $(auth).on("logged-in", () => {
         $("#login-form").addClass("close");
+
+        // TODO: Change this before production
         $("main").load("/pages/dashboard.php");
         setTimeout(() => {
         }, 1200);
