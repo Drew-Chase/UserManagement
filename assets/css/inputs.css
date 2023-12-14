@@ -20,6 +20,13 @@ button:hover, .button:hover {
     color: white;
 }
 
+button.secondary, .button.secondary {
+    background: #545F71;
+}
+button.secondary:hover, .button.secondary:hover{
+    background: #434c5c;
+}
+
 input {
     display: flex;
     flex-direction: column;
@@ -60,7 +67,7 @@ input:focus {
     opacity: 0;
 }
 
-.floating-input input:focus ~ label, .floating-input input:not(:placeholder-shown) ~ label {
+.floating-input input:focus~label, .floating-input input:not(:placeholder-shown)~label {
     color: white;
     opacity: 1;
     transform: translate(5px, -5.5rem);
