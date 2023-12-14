@@ -43,6 +43,7 @@ If you prefer manual setup, follow these steps:
     Replace `/path/to/php.exe` with the actual path to your PHP executable and `5522` with your desired port.
 
 ## Screenshots
+![image](https://github.com/Mardens-Inc/UserManagement/assets/5598099/4c2e875f-cbf8-42bb-8f66-93b2b0fd5f4f)
 
 ## Additional Notes
 
