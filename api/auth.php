@@ -21,13 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             die(json_encode(array("error" => "User not found.")));
         }
     }
-    return $auth->list();
+    die(json_encode($auth->list()));
 } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_GET["action"])) {
         switch ($_GET["action"]) {
-                
         }
-    }else{
+    } else {
         if (isset($_POST["username"]) && isset($_POST["password"])) {
             $username = $_POST["username"];
             $password = $_POST["password"];
