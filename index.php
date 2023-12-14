@@ -16,6 +16,7 @@
     <!-- Page Stylings -->
     <link rel="stylesheet" href="/assets/css/main.min.css">
     <link rel="stylesheet" href="/assets/css/inputs.min.css">
+    <link rel="stylesheet" href="/assets/css/scrollbar.min.css">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="/assets/lib/fontawesome/css/all.min.css">
@@ -36,16 +37,16 @@
     <main>
     </main>
 
+    <script src="/assets/js/popups.min.js"></script>
     <script>
         const auth = new Authentication();
-        if(!auth.isLoggedIn()) {
+        if (!auth.isLoggedIn()) {
             $("main").load("/pages/login.php");
         }
 
         $(auth).on("logged-in", () => {
             $("main").load("/pages/dashboard.php");
         });
-
     </script>
 </body>
 
