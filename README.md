@@ -1,8 +1,6 @@
-# Mardens Web App Template
+# Mardens User Management Web App
 
-## Introduction
-
-Welcome to the Mardens Web App Template! This template provides a solid foundation for developing web applications at Mardens Inc. Follow the instructions below for a smooth setup and start building amazing web apps.
+A user management system for creating, removing and managing permissions across our various web applications.
 
 ## Installation
 
@@ -38,18 +36,20 @@ If you prefer manual setup, follow these steps:
 
 2. Run the following command:
 
-   ```bash
-   /path/to/php.exe -S 127.0.0.1:5522
-   ```
+    ```bash
+    /path/to/php.exe -S 127.0.0.1:5522
+    ```
 
-   Replace `/path/to/php.exe` with the actual path to your PHP executable and `5522` with your desired port.
+    Replace `/path/to/php.exe` with the actual path to your PHP executable and `5522` with your desired port.
+
+## Screenshots
 
 ## Additional Notes
 
-- Ensure that your PHP version is at least 8.0 and up
+-   Ensure that your PHP version is at least 8.0 and up
 
-- Customize the server setup according to your environment.
+-   Customize the server setup according to your environment.
 
-- Explore and leverage the features provided in this template to expedite your web development process.
+-   Explore and leverage the features provided in this template to expedite your web development process.
 
 Feel free to reach out for any assistance or further guidance. Happy coding!
