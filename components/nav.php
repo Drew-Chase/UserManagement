@@ -76,7 +76,7 @@
 
 <nav class="col center vertical">
     <div id="nav-items" class="col">
-        <div class="nav-item selected" page="home">
+        <div class="nav-item selected" page="">
             <img class="icon" src="/assets/images/icons/home.svg" alt="">
             <span class="label">
                 <svg class="label-background" xmlns="http://www.w3.org/2000/svg" width="153" height="52" viewBox="0 0 153 52" fill="none">
@@ -119,5 +119,6 @@
         $(".nav-item.selected").removeClass('selected');
         element.addClass("selected");
         $(document).trigger('page-change', page);
+        window.history.pushState({}, page, `/${page}`);
     })
 </script>
