@@ -4,9 +4,6 @@ require_once $_SERVER["DOCUMENT_ROOT"] . "/assets/php/data/user-permissions.inc.
 
 use Hashids\Hashids;
 
-
-
-
 class Authentication
 {
     private $hashids;
@@ -77,6 +74,61 @@ class Authentication
         return ["success" => true, "id" => $id, "token" => $this->createToken($username, $password)];
     }
 
+    /**
+     * Edit a user in the database
+     * @param string $id The ID of the user to edit
+     * @param string $username The new username of the user
+     * @param string $password The new password of the user
+     * @param array $permissions The new permissions of the user
+     * @return array An array containing whether the operation was successful
+     */
+    public function edit(string $id, string $username, string $password, array $permissions): array
+    {
+        // Get the token from the cookie
+        $token = $_COOKIE["auth-token"] ?? null; // If a cookie named "auth-token" exists, its value is assigned to $token. If not, $token is set to null.
+
+        if (empty($token)) { // Checks if $token is empty.
+            return ["success" => false, "error" => "No token found"]; // If $token is empty, returns an array with "success" set to false and an error message.
+        }
+
+        $accessId = $this->validateToken($token); // Calls the validateToken method with $token as an argument and assigns the returned value to $accessId.
+
+        if (!$this->hasPermission($accessId, UserPermission::ModifyUsers)) { // Checks if the user has the permission to modify users.
+            return ["success" => false, "error" => "You do not have permission to modify users"]; // If the user doesn't have the required permission, returns an array with "success" set to false and an error message.
+        }
+
+        $id = $this->hashids->decode($id); // Decodes the $id using the decode method of the hashids object.
+
+        if (empty($id)) { // Checks if $id is empty after decoding.
+            return ["success" => false, "error" => "Invalid ID"]; // If $id is empty, returns an array with "success" set to false and an error message.
+        }
+
+        $id = $id[0]; // Assigns the first element of the $id array to $id.
+
+        // Separate the permissions with a semicolon
+        $permissions = implode(";", $permissions); // Joins the elements of the $permissions array into a string, with each element separated by a semicolon.
+
+        if (!empty($password) && $password != null && $password != "") { // Checks if $password is not empty.
+            // Hash the password
+            $password = crypt($password, $_ENV["HASH_SALT"]); // Hashes the $password using the crypt function and the salt stored in $_ENV["HASH_SALT"].
+            // Create the SQL query
+            $sql = "UPDATE `users` SET `username`='$username', `permissions`='$permissions', `password`='$password'  WHERE id = $id"; // Creates an SQL query to update the username, permissions, and password of the user with the given id.
+        } else {
+            // Create the SQL query
+            $sql = "UPDATE `users` SET `username`='$username', `permissions`='$permissions'  WHERE id = $id"; // Creates an SQL query to update the username and permissions of the user with the given id.
+        }
+
+        // Send the query to the database
+        $result = $this->connection->query($sql); // Sends the SQL query to the database and assigns the result to $result.
+
+        // Check if the query was successful
+        if (!$result) { // Checks if the query was not successful.
+            return ["success" => false, "error" => "Failed to send query to database 'users'"]; // If the query was not successful, returns an array with "success" set to false and an error message.
+        }
+
+        return ["success" => true]; // If everything went well, returns an array with "success" set to true.
+    }
+
 
     /**
      * Remove a user from the database
@@ -90,8 +142,8 @@ class Authentication
         if (empty($token)) {
             return ["success" => false, "error" => "No token found"];
         }
-        $id = $this->validateToken($token);
-        if (!$this->hasPermission($id, UserPermission::DeleteUsers)) {
+        $access = $this->validateToken($token);
+        if (!$this->hasPermission($access, UserPermission::DeleteUsers)) {
             return ["success" => false, "error" => "You do not have permission to delete users"];
         }
 
@@ -119,47 +171,6 @@ class Authentication
 
 
     /**
-     * Modify a user in the database
-     * @param string $id The ID of the user to modify
-     * @param string $username The new username of the user
-     * @param string $password The new password of the user
-     * @param array $permissions The new permissions of the user
-     * @return array An array containing whether the operation was successful
-     */
-    public function modify(string $id, string $username, string $password, array $permissions): array
-    { // Get the token from the cookie
-        $token = $_COOKIE["auth-token"] ?? null;
-        if (empty($token)) {
-            return ["success" => false, "error" => "No token found"];
-        }
-        $id = $this->validateToken($token);
-        if (!$this->hasPermission($id, UserPermission::ModifyUsers)) {
-            return ["success" => false, "error" => "You do not have permission to modify users"];
-        }
-        // Decode ID
-        $id = $this->hashids->decode($id);
-        if (empty($id)) {
-            return ["success" => false, "error" => "Invalid ID"];
-        }
-        $id = $id[0];
-        // Check for empty values
-        if (empty($username) || empty($password) || empty($permissions)) {
-            return ["success" => false, "error" => "Empty username, password or permissions"];
-        }
-        // Format permissions
-        $permissions = implode(";", $permissions);
-        // Encrypt password
-        $password = crypt($password, $_ENV["HASH_SALT"]);
-        // Send query to database
-        $sql = "UPDATE `users` SET username = '$username', password = '$password', permissions = '$permissions' WHERE id = $id";
-        $result = $this->connection->query($sql);
-        if (!$result) {
-            return ["success" => false, "error" => "Failed to send query to database 'users'"];
-        }
-        return ["success" => true];
-    }
-
-    /**
      * Get a user from the database
      * @param string $id The ID of the user to get
      * @return array An array containing the user and whether the operation was successful
@@ -170,8 +181,8 @@ class Authentication
         if (empty($token)) {
             return ["success" => false, "error" => "No token found"];
         }
-        $id = $this->validateToken($token);
-        if (!$this->hasPermission($id, UserPermission::ViewUsers)) {
+        $accessingID = $this->validateToken($token);
+        if (!$this->hasPermission($accessingID, UserPermission::ViewUsers)) {
             return ["success" => false, "error" => "You do not have permission to view users"];
         }
         // Decode the ID
@@ -229,6 +240,50 @@ class Authentication
         }
         return ["success" => true, "users" => $users];
     }
+    public function search(string $username, array $permissions = null): array
+    {
+        // Get the token from the cookie
+        $token = $_COOKIE["auth-token"] ?? null;
+        if (empty($token)) {
+            return ["success" => false, "error" => "No token found"];
+        }
+        $id = $this->validateToken($token);
+        if (!$this->hasPermission($id, UserPermission::ViewUsers)) {
+            return ["success" => false, "error" => "You do not have permission to view users"];
+        }
+
+        // Get all users from the database
+        $sql = "SELECT * FROM `users` WHERE username LIKE '%$username%' OR SOUNDEX(username) = SOUNDEX('$username')";
+        $result = $this->connection->query($sql);
+        if (!$result) {
+            return ["success" => false, "error" => "Failed to send query to database 'users'"];
+        }
+        $users = [];
+        while ($row = $result->fetch_assoc()) {
+            $has_perms = false;
+            // Split the permissions string into an array
+            $uperms = explode(";", $row["permissions"]);
+            if ($permissions != null) {
+                // Check if the user has all the permissions specified
+                foreach ($permissions as $perm) {
+                    if (in_array($perm, $uperms)) {
+                        $has_perms = true;
+                    } else {
+                        $has_perms = false;
+                        break;
+                    }
+                }
+            } else {
+                $has_perms = true;
+            }
+            if ($has_perms || $this->hasPermission($this->hashids->encode($row["id"]), UserPermission::All)) {
+                // Add the user to the return array
+                $user = ["id" => $this->hashids->encode($row["id"]), "username" => $row["username"], "permissions" => $permissions];
+                array_push($users, $user);
+            }
+        }
+        return ["success" => true, "users" => $users];
+    }
 
     /**
      * Login a user
@@ -260,9 +315,10 @@ class Authentication
         return ["success" => true, "user" => $user];
     }
 
-    public static function getPermissionMap(){
+    public static function getPermissionMap()
+    {
         $permissions = array();
-        foreach(UserPermission::cases() as $permission){
+        foreach (UserPermission::cases() as $permission) {
             $permissions[$permission->name] = $permission->value;
         }
         return $permissions;
@@ -372,7 +428,7 @@ class Authentication
         }
         $id = $id[0];
         // Get the user from the database
-        $sql = "SELECT * FROM `users` WHERE id = $id";
+        $sql = "SELECT permissions FROM `users` WHERE id = $id";
         $result = $this->connection->query($sql);
         if (!$result) {
             return false;
@@ -385,7 +441,7 @@ class Authentication
         $permissions = array_map(function ($permission) {
             return intval($permission);
         }, $permissions);
-        
+
 
 
         // Check if the user has the permission or is an admin
