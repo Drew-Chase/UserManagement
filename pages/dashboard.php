@@ -33,6 +33,7 @@
             opacity: 1;
         }
     }
+
     @keyframes contentLoad {
         0% {
             opacity: 0;
@@ -55,17 +56,21 @@
 <script>
     (() => {
         document.title = "Dashboard - User Management";
-        loadPage(window.location.pathname.replace("/", ""));
+        loadPage(window.location.href.split(window.location.host)[1].substring(1));
         $(document).on("page-change", (_, page) => loadPage(page))
     })();
 
     function loadPage(page) {
-        window.history.pushState({}, page, `/${page}`);
-        $(".nav-item").removeClass("selected");
-        $(`.nav-item[page="${page}"]`).addClass("selected");
+            window.history.pushState({}, "", `/${page}`);
+            $(".nav-item").removeClass("selected");
+            $(`.nav-item[page="${page}"]`).addClass("selected");
+            let sections = page.split("?")
+            page = sections[0];
+            let params = sections.length == 2 ? sections[1] : "";
+            page = page == "" ? "dashboard" : page;
+            let url = `/pages/dashboard/${page}.php`;
 
-        page = page == "" ? "dashboard" : page;
-        $(".page-content").load(`/pages/dashboard/${page}.php`);
-        $(document).trigger('page-loaded', page);
+            $(".page-content").load(url, {id: sections[1]});
+            $(document).trigger('page-loaded', page);
     }
 </script>
