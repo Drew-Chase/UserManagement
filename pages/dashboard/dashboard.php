@@ -40,20 +40,60 @@
             <div class="search-input" style="min-width:fit-content; width: 100%;">
                 <input type="search" name="" id="" placeholder="Search">
             </div>
-            <select name="" id="" style="min-width:fit-content; width: 15%; margin-right: 1rem;">
-                <option value="" disabled selected>Filter by Permissions</option>
-                <option value="">All</option>
-                <option value="">Admin</option>
-                <option value="">User</option>
-            </select>
-            <button onclick="editUser()" class="secondary" title="Filter the results" style="height: 100%;"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
+            <button class="secondary" style="height: 100%; margin-right: 10px; width: 60px" onclick="loadFilters()"><i class="fa-solid fa-sliders"></i></button>
+            <button onclick="search()" class="secondary" title="Filter the results" style="height: 100%;">Reset</button>
         </div>
     </div>
     <div class="list island">
     </div>
 </div>
-
 <script>
+    function loadFilters() {
+        loadAlert("Filters", `<?php
+                                require_once $_SERVER["DOCUMENT_ROOT"] . "/assets/php/db/auth.inc.php";
+                                $perms = Authentication::getPermissionMap();
+                                foreach ($perms as $value => $key) {
+                                    $value = preg_replace('/(?<!\ )[A-Z]/', ' $0', $value);
+                                    if ($key != 0) {
+                                        if ($key == 1) {
+                                            echo "<div id='other-permissions' class='row' style='flex-wrap: wrap;'>";
+                                        }
+                                        echo "<toggle permission='$key' style='width: 25%; margin-right: 4rem;'>$value</toggle>";
+                                    }
+                                }
+                                echo "</div>";
+
+                                ?>`, e => {
+            let permissions = [];
+            $("#other-permissions toggle[value='true']").each((i, e) => {
+                permissions.push($(e).attr("permission"));
+            });
+            search(permissions);
+        });
+    }
+    $("input[type='search']").on('input', () => search());
+    async function search(permissions = []) {
+        permissions = permissions.join(";");
+        let username = $("input[type='search']").val();
+        let users = await $.get(`/api/auth.php?username=${username}&permissions=${permissions}`);
+        let list = $("#user-list .list");
+        list.empty();
+        console.log(users);
+        users.users.forEach(user => {
+            list.append(`
+            <div class="user-item list-item row center vertical fill">
+                <div class="col fill">
+                    <h3>${user.username}</h3>
+                </div>
+                <div class="row">
+                    <button onclick="loadPage('new-user?id=${user.id}')" title="Modify the user"><i class="fa-solid fa-pen"></i></button>
+                    <button class="secondary" onclick="deleteUser('${user.id}')" title="Delete the user"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            </div>
+            `);
+        });
+    }
+
     (async () => {
         const users = await $.get("/api/auth.php");
         const list = $("#user-list .list");
@@ -64,7 +104,7 @@
                         <h3>${user.username}</h3>
                     </div>
                     <div class="row">
-                        <button onclick="editUser('${user.id}')" title="Modify the user"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="loadPage('new-user?id=${user.id}')" title="Modify the user"><i class="fa-solid fa-pen"></i></button>
                         <button class="secondary" onclick="deleteUser('${user.id}')" title="Delete the user"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </div>
@@ -78,11 +118,12 @@
         });
     }
 
+
     function deleteUser(id) {
         $.ajax(`/api/auth.php?id=${id}`, {
             method: "DELETE",
             success: e => {
-                if(e.error) {
+                if (e.error) {
                     loadAlert("error", `An error occurred while deleting the user<br>${e.error}`);
                     return;
                 }
