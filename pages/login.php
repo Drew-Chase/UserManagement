@@ -155,7 +155,7 @@
         if (!response.success) {
             button.html("Login");
             button.attr("disabled", false);
-            popup.alert("Login Failed", response.message);
+            loadAlert("Login Failed", response.error);
         }
     });
 </script>
