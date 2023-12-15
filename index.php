@@ -2,22 +2,23 @@
     @@Company: Marden's Surplus & Salvage
     @@Project: User Management
     @@Author: Drew Chase
- -->
+-->
 
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management - Marden's Surplus & Salvage | Maine's Best Bargain Store</title>
-    <link rel="shortcut icon" href="https://www.mardens.com/wp-content/uploads/2019/03/cropped-Mardens-Favicon-1-192x192.png" type="image/x-icon">
-
-    <!-- Page Stylings -->
-    <link rel="stylesheet" href="/assets/css/main.min.css">
-    <link rel="stylesheet" href="/assets/css/inputs.min.css">
-    <link rel="stylesheet" href="/assets/css/scrollbar.min.css">
-
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>User Management - Marden's Surplus & Salvage | Maine's Best Bargain Store</title>
+        <link rel="shortcut icon" href="https://www.mardens.com/wp-content/uploads/2019/03/cropped-Mardens-Favicon-1-192x192.png" type="image/x-icon">
+        
+        <!-- Page Stylings -->
+        <link rel="stylesheet" href="/assets/css/main.min.css">
+        <link rel="stylesheet" href="/assets/css/inputs.min.css">
+        <link rel="stylesheet" href="/assets/css/scrollbar.min.css">
+        <link rel="stylesheet" href="/assets/css/responsive.css">
+        
     <!-- Font Awesome -->
     <link rel="stylesheet" href="/assets/lib/fontawesome/css/all.min.css">
 
@@ -45,7 +46,6 @@
 
     <script src="/assets/js/input.js"></script>
     
-    <link rel="stylesheet" href="/assets/css/responsive.min.css">
 </body>
 
 </html>
