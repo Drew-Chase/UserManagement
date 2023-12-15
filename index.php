@@ -44,6 +44,8 @@
     </script>
 
     <script src="/assets/js/input.js"></script>
+    
+    <link rel="stylesheet" href="/assets/css/responsive.min.css">
 </body>
 
 </html>
