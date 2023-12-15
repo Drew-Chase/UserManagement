@@ -37,7 +37,7 @@
             <button onclick="loadPage('new-user')" title="Add a new user"><i class="fa-solid fa-plus"></i> Add New User</button>
         </div>
         <div class="list-header row center vertical fill" style="margin-top: 1rem">
-            <div class="search-input" style="min-width:fit-content; width: 100%;">
+            <div class="search-input" style=" width: 100%;">
                 <input type="search" name="" id="" placeholder="Search">
             </div>
             <button class="secondary" style="height: 100%; margin-right: 10px; width: 60px" onclick="loadFilters()"><i class="fa-solid fa-sliders"></i></button>
