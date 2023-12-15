@@ -28,7 +28,7 @@
         border-radius: 0.625rem;
     }
 
-    nav .icon{
+    nav .icon {
         font-size: 1.5rem;
     }
 
@@ -89,17 +89,19 @@
             opacity: 1;
             transform: translateX(0%);
         }
-        
-    }
 
+    }
 </style>
 
 
 
 <nav class="col center vertical">
+
     <div id="nav-items" class="col">
-        <div class="nav-item selected" page="">
-            <!-- <img class="icon" src="/assets/images/icons/home.svg" alt=""> -->
+        <div id="hamburger" class="nav-item" tabindex="-1">
+            <i class="fa-solid fa-bars icon"></i>
+        </div>
+        <div class="nav-item selected" page="" tabindex="-1">
             <i class="fa-solid fa-home icon"></i>
             <span class="label">
                 <svg class="label-background" xmlns="http://www.w3.org/2000/svg" width="153" height="52" viewBox="0 0 153 52" fill="none">
@@ -109,9 +111,8 @@
                 <span class="title">Home</span>
             </span>
         </div>
-        <div class="nav-item" page="new-user">
+        <div class="nav-item" page="new-user" tabindex="-1">
             <i class="fa-solid fa-user-plus icon"></i>
-            <!-- <img class="icon" src="/assets/images/icons/user-add.svg" alt=""> -->
             <span class="label">
                 <svg class="label-background" xmlns="http://www.w3.org/2000/svg" width="153" height="52" viewBox="0 0 153 52" fill="none">
                     <rect x="8.77454" width="144.225" height="52" rx="4" fill="#262626" />
@@ -122,8 +123,7 @@
         </div>
     </div>
     <div class="col">
-        <div class="nav-item" page="logout" onclick="auth.logout();">
-            <!-- <img class="icon" src="/assets/images/icons/logout.svg" alt=""> -->
+        <div id="logout-button" class="nav-item" page="logout" onclick="auth.logout();" tabindex="-1">
             <i class="fa-solid fa-arrow-right-from-bracket icon"></i>
             <span class="label">
                 <svg class="label-background" xmlns="http://www.w3.org/2000/svg" width="153" height="52" viewBox="0 0 153 52" fill="none">
@@ -141,9 +141,12 @@
     $(".nav-item").on('click', e => {
         let element = $(e.currentTarget);
         let page = element.attr('page');
-        $(".nav-item.selected").removeClass('selected');
-        element.addClass("selected");
-        window.history.pushState({}, page, `/${page}`);
-        $(document).trigger('page-change', page);
+        if (page != undefined) {
+            $(".nav-item.selected").removeClass('selected');
+            element.addClass("selected");
+            window.history.pushState({}, page, `/${page}`);
+            $(document).trigger('page-change', page);
+            element.blur();
+        }
     })
 </script>
