@@ -28,6 +28,10 @@
         border-radius: 0.625rem;
     }
 
+    nav .icon{
+        font-size: 1.5rem;
+    }
+
     nav .nav-item .label {
         opacity: 0;
         position: absolute;
@@ -95,7 +99,8 @@
 <nav class="col center vertical">
     <div id="nav-items" class="col">
         <div class="nav-item selected" page="">
-            <img class="icon" src="/assets/images/icons/home.svg" alt="">
+            <!-- <img class="icon" src="/assets/images/icons/home.svg" alt=""> -->
+            <i class="fa-solid fa-home icon"></i>
             <span class="label">
                 <svg class="label-background" xmlns="http://www.w3.org/2000/svg" width="153" height="52" viewBox="0 0 153 52" fill="none">
                     <rect x="8.77454" width="144.225" height="52" rx="4" fill="#262626" />
@@ -105,7 +110,8 @@
             </span>
         </div>
         <div class="nav-item" page="new-user">
-            <img class="icon" src="/assets/images/icons/user-add.svg" alt="">
+            <i class="fa-solid fa-user-plus icon"></i>
+            <!-- <img class="icon" src="/assets/images/icons/user-add.svg" alt=""> -->
             <span class="label">
                 <svg class="label-background" xmlns="http://www.w3.org/2000/svg" width="153" height="52" viewBox="0 0 153 52" fill="none">
                     <rect x="8.77454" width="144.225" height="52" rx="4" fill="#262626" />
@@ -117,7 +123,8 @@
     </div>
     <div class="col">
         <div class="nav-item" page="logout" onclick="auth.logout();">
-            <img class="icon" src="/assets/images/icons/logout.svg" alt="">
+            <!-- <img class="icon" src="/assets/images/icons/logout.svg" alt=""> -->
+            <i class="fa-solid fa-arrow-right-from-bracket icon"></i>
             <span class="label">
                 <svg class="label-background" xmlns="http://www.w3.org/2000/svg" width="153" height="52" viewBox="0 0 153 52" fill="none">
                     <rect x="8.77454" width="144.225" height="52" rx="4" fill="#262626" />
