@@ -1,8 +1,5 @@
 $(document).on("page-loaded",() => {
     setTimeout(()=>{{
-
-        // alert('hi')
-        console.log('hi')
         // Add a click event listener to all "toggle" elements.
         // When a "toggle" element is clicked, prevent the default click behavior and toggle its value.
         $("toggle").on("click", (e) => {
